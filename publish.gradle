@@ -1,0 +1,13 @@
+// See https://github.com/jitpack/android-example
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'dk.gls'
+                artifactId = 'kdw'
+            }
+        }
+    }
+}
