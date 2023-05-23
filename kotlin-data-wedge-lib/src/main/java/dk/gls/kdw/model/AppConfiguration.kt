@@ -1,6 +1,6 @@
 package dk.gls.kdw.model
 
-import dk.gls.kdw.bundelizer.Bundler
+import dk.gls.kdw.bundler.Bundler
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

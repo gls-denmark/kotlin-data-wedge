@@ -2,7 +2,6 @@ package dk.gls.kdw
 
 import android.os.Bundle
 import dk.gls.kdw.model.AppConfiguration
-import dk.gls.kdw.model.ProfileConfiguration
 import dk.gls.kdw.model.toBundle
 import org.junit.Assert
 import org.junit.Test
@@ -10,7 +9,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class ConfigurationTest {
+class AppConfigurationTest {
 
     @Test
     fun app_configuration_bundle_test() {
