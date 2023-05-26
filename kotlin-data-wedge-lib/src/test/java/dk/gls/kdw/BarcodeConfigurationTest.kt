@@ -46,8 +46,17 @@ class BarcodeConfigurationTest {
             matrixI2of5 = matrixI2Of5
         ).toBundle()
 
-        val barcodePluginConfig = barcodeConfiguration.getBundle("PARAM_LIST")
-        Assert.assertTrue(barcodePluginConfig!!.getBoolean("decoder_datamatrix"))
+        val barcodePluginConfig = barcodeConfiguration.getBundle("PARAM_LIST")!!
+        Assert.assertTrue(barcodePluginConfig.getBoolean("decoder_datamatrix"))
+
+        Assert.assertEquals(barcodePluginConfig.getInt("decoder_i2of5_length1"), 12)
+        Assert.assertEquals(barcodePluginConfig.getInt("decoder_i2of5_length2"), 12)
+        Assert.assertEquals(barcodePluginConfig.getBoolean("decoder_i2of5_redundancy"), true)
+        
+        Assert.assertTrue(barcodePluginConfig.getBoolean("decoder_matrix_2of5"))
+        Assert.assertEquals(barcodePluginConfig.getInt("decoder_matrix_2of5_length1"), 12)
+        Assert.assertEquals(barcodePluginConfig.getInt("decoder_matrix_2of5_length2"), 12)
+        Assert.assertTrue(barcodePluginConfig.getBoolean("decoder_matrix_2of5_redundancy"))
     }
 
 }
