@@ -1,4 +1,4 @@
-package dk.gls.kdw.model.barcode.ean
+package dk.gls.kdw.model.barcode
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -23,10 +23,6 @@ class ProfileConfiguration(
     val appList: ArrayList<AppConfiguration>
 ) {
 
-    fun setBarcodeConfiguration(barcodeConfiguration: BarcodeConfiguration) {
-
-    }
-
 }
 
 fun ProfileConfiguration.toBundle() : Bundle = Bundler.bundle(ProfileConfiguration.serializer(), this)

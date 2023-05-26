@@ -1,10 +1,10 @@
-package dk.gls.kdw.model.barcode.code
+package dk.gls.kdw.model.barcode
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Code32(
-    @SerialName("decoder_code32")
+data class CompositeC(
+    @SerialName("decoder_composite_c")
     val enabled: Boolean = true
 )

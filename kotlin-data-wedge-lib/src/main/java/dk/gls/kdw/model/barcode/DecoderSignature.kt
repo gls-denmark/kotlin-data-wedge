@@ -46,5 +46,5 @@ data class DecoderSignature(
      * Used to select the number of significant bits per pixel (BPP) to use when capturing a signature
      */
     @SerialName("decoder_signature_bpp")
-    val bitsPerPixel: BitsPerPixel,
+    val bitsPerPixel: BitsPerPixel
 )

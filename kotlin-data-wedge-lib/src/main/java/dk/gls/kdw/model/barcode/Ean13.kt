@@ -1,10 +1,10 @@
-package dk.gls.kdw.model.barcode.composite
+package dk.gls.kdw.model.barcode
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CompositeC(
-    @SerialName("decoder_composite_c")
+data class Ean13(
+    @SerialName("decoder_ean13")
     val enabled: Boolean = true
 )

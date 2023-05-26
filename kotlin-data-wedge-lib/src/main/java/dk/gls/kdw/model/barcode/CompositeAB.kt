@@ -1,4 +1,4 @@
-package dk.gls.kdw.model.barcode.composite
+package dk.gls.kdw.model.barcode
 
 import dk.gls.kdw.model.barcode.model.UCCLinkMode
 import kotlinx.serialization.SerialName

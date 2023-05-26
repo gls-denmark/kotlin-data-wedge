@@ -1,4 +1,4 @@
-package dk.gls.kdw.model.barcode.code
+package dk.gls.kdw.model.barcode
 
 import dk.gls.kdw.model.barcode.model.CheckDigit
 import dk.gls.kdw.model.barcode.model.SecurityLevel
