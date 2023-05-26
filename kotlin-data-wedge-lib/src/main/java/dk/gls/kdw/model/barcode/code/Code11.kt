@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.code
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import dk.gls.kdw.model.barcode.model.CheckDigit
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -40,4 +40,4 @@ data class Code11(
     val reportCheckDigit: Boolean
 )
 
-fun Code11.toBundle(): Bundle = Bundler.bundle(Code11.serializer(), this)
+fun Code11.toBundle(): Bundle = Bundlizer.bundle(Code11.serializer(), this)

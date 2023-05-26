@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.code
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import dk.gls.kdw.model.barcode.model.CheckDigit
 import dk.gls.kdw.model.barcode.model.SecurityLevel
 import kotlinx.serialization.SerialName
@@ -65,4 +65,4 @@ data class Code39(
     val securityLevel: SecurityLevel
 )
 
-fun Code39.toBundle(): Bundle = Bundler.bundle(Code39.serializer(), this)
+fun Code39.toBundle(): Bundle = Bundlizer.bundle(Code39.serializer(), this)

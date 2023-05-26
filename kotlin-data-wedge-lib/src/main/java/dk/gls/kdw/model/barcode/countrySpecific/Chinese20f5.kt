@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.countrySpecific
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,4 +11,4 @@ data class Chinese20f5(
     val enabled: Boolean = true,
 )
 
-fun Chinese20f5.toBundle() : Bundle = Bundler.bundle(Chinese20f5.serializer(), this)
+fun Chinese20f5.toBundle(): Bundle = Bundlizer.bundle(Chinese20f5.serializer(), this)

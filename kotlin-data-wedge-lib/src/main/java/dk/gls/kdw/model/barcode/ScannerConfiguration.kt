@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import dk.gls.kdw.model.barcode.scanner.ScannerIdentifier
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -14,4 +14,4 @@ data class ScannerConfiguration(
     val inputEnabled: Boolean = true
 )
 
-fun ScannerConfiguration.toBundle(): Bundle = Bundler.bundle(ScannerConfiguration.serializer(), this)
+fun ScannerConfiguration.toBundle(): Bundle = Bundlizer.bundle(ScannerConfiguration.serializer(), this)

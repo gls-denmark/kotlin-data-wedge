@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,4 +11,4 @@ data class Aztec(
     val enabled: Boolean = true,
 )
 
-fun Aztec.toBundle() : Bundle = Bundler.bundle(Aztec.serializer(), this)
+fun Aztec.toBundle(): Bundle = Bundlizer.bundle(Aztec.serializer(), this)

@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.matrix
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -38,4 +38,4 @@ data class MatrixI2of5(
     val verifyCheckDigit: Boolean,
 )
 
-fun MatrixI2of5.toBundle(): Bundle = Bundler.bundle(MatrixI2of5.serializer(), this)
+fun MatrixI2of5.toBundle(): Bundle = Bundlizer.bundle(MatrixI2of5.serializer(), this)

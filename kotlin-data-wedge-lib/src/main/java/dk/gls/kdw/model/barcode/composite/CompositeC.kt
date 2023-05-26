@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.composite
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,4 +11,4 @@ data class CompositeC(
     val enabled: Boolean = true
 )
 
-fun CompositeC.toBundle(): Bundle = Bundler.bundle(CompositeC.serializer(), this)
+fun CompositeC.toBundle(): Bundle = Bundlizer.bundle(CompositeC.serializer(), this)

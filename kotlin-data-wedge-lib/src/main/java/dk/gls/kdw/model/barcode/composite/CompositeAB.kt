@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.composite
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import dk.gls.kdw.model.barcode.model.UCCLinkMode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,4 +17,4 @@ data class CompositeAB(
     val length1: UCCLinkMode,
 )
 
-fun CompositeAB.toBundle(): Bundle = Bundler.bundle(CompositeAB.serializer(), this)
+fun CompositeAB.toBundle(): Bundle = Bundlizer.bundle(CompositeAB.serializer(), this)

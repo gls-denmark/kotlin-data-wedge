@@ -1,8 +1,7 @@
 package dk.gls.kdw.model
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
-import dk.gls.kdw.model.barcode.BarcodeConfiguration
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -25,4 +24,4 @@ class ProfileConfiguration(
 
 }
 
-fun ProfileConfiguration.toBundle() : Bundle = Bundler.bundle(ProfileConfiguration.serializer(), this)
+fun ProfileConfiguration.toBundle(): Bundle = Bundlizer.bundle(ProfileConfiguration.serializer(), this)

@@ -1,6 +1,6 @@
 package dk.gls.kdw.model
 
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -12,4 +12,4 @@ data class AppConfiguration(
     val activityList: ArrayList<String> = arrayListOf("*")
 )
 
-fun AppConfiguration.toBundle() = Bundler.bundle(AppConfiguration.serializer(), this)
+fun AppConfiguration.toBundle() = Bundlizer.bundle(AppConfiguration.serializer(), this)

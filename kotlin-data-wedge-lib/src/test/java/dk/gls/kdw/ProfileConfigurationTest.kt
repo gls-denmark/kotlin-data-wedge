@@ -1,7 +1,7 @@
 package dk.gls.kdw
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.unbundle
+import dev.ahmedmourad.bundlizer.unbundle
 import dk.gls.kdw.model.AppConfiguration
 import dk.gls.kdw.model.ConfigMode
 import dk.gls.kdw.model.ProfileConfiguration

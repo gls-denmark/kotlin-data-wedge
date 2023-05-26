@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.matrix
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,4 +11,4 @@ data class DataMatrix(
     val enabled: Boolean = true
 )
 
-fun DataMatrix.toBundle(): Bundle = Bundler.bundle(DataMatrix.serializer(), this)
+fun DataMatrix.toBundle(): Bundle = Bundlizer.bundle(DataMatrix.serializer(), this)

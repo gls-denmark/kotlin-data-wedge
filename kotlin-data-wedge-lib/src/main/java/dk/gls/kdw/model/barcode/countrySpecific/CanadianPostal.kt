@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.countrySpecific
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,4 +11,4 @@ data class CanadianPostal(
     val enabled: Boolean = true,
 )
 
-fun CanadianPostal.toBundle() : Bundle = Bundler.bundle(CanadianPostal.serializer(), this)
+fun CanadianPostal.toBundle(): Bundle = Bundlizer.bundle(CanadianPostal.serializer(), this)

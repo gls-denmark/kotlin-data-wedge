@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.code
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -28,4 +28,4 @@ data class Code93(
     val redundancy: Boolean,
 )
 
-fun Code93.toBundle(): Bundle = Bundler.bundle(Code93.serializer(), this)
+fun Code93.toBundle(): Bundle = Bundlizer.bundle(Code93.serializer(), this)

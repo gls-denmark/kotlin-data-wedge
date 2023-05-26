@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -41,4 +41,4 @@ data class Codabar(
     val notisEditing: Boolean
 )
 
-fun Codabar.toBundle() : Bundle = Bundler.bundle(Codabar.serializer(), this)
+fun Codabar.toBundle(): Bundle = Bundlizer.bundle(Codabar.serializer(), this)

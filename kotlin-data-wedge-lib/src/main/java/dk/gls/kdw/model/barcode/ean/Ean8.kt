@@ -1,7 +1,7 @@
 package dk.gls.kdw.model.barcode.ean
 
 import android.os.Bundle
-import dk.gls.kdw.bundler.Bundler
+import dev.ahmedmourad.bundlizer.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,4 +11,4 @@ data class Ean8(
     val enabled: Boolean = true
 )
 
-fun Ean8.toBundle(): Bundle = Bundler.bundle(Ean8.serializer(), this)
+fun Ean8.toBundle(): Bundle = Bundlizer.bundle(Ean8.serializer(), this)
