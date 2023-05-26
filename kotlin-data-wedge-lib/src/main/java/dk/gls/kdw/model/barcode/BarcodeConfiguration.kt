@@ -22,7 +22,7 @@ import dk.gls.kdw.model.barcode.matrix.MatrixI2of5
 import dk.gls.kdw.model.barcode.matrix.toBundle
 
 class BarcodeConfiguration(
-    val scannerConfiguration: ScannerConfiguration,
+    val scannerConfiguration: ScannerConfiguration = ScannerConfiguration(),
     val australianPostal: AustralianPostal? = null,
     val aztec: Aztec? = null,
     val canadianPostal: CanadianPostal? = null,
@@ -44,10 +44,6 @@ class BarcodeConfiguration(
 ) {
 
     fun toBundle(): Bundle {
-        val barcodeConfig = Bundle()
-        barcodeConfig.putString("PLUGIN_NAME", "BARCODE")
-        barcodeConfig.putString("RESET_CONFIG", "true")
-
         val barcodeConfigPropertyBundle = Bundle()
 
         australianPostal?.let {
@@ -105,9 +101,7 @@ class BarcodeConfiguration(
             barcodeConfigPropertyBundle.putAll(it.toBundle())
         }
 
-        barcodeConfig.putBundle("PARAM_LIST", barcodeConfigPropertyBundle)
-
-        return barcodeConfig
+        return barcodeConfigPropertyBundle
     }
 
 }
