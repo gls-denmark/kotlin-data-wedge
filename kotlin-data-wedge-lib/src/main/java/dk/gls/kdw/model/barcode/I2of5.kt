@@ -66,8 +66,6 @@ data class I2of5(
      */
     @SerialName("decoder_i2of5_security_level")
     val securityLevel: SecurityLevel
-) : Bundleable {
-    override fun toBundle(): Bundle {
-        return Bundler.bundle(serializer(), this)
-    }
-}
+)
+
+fun I2of5.toBundle(): Bundle = Bundler.bundle(I2of5.serializer(), this)

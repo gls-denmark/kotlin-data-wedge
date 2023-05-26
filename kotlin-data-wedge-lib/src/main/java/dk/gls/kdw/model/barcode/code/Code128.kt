@@ -1,5 +1,7 @@
-package dk.gls.kdw.model.barcode
+package dk.gls.kdw.model.barcode.code
 
+import android.os.Bundle
+import dk.gls.kdw.bundler.Bundler
 import dk.gls.kdw.model.barcode.model.CheckDigit
 import dk.gls.kdw.model.barcode.model.ConcatMode
 import dk.gls.kdw.model.barcode.model.SecurityLevel
@@ -66,3 +68,5 @@ data class Code128(
     @SerialName("code128_ignore_fnc4")
     val ignoreFnc4: Boolean
 )
+
+fun Code128.toBundle(): Bundle = Bundler.bundle(Code128.serializer(), this)

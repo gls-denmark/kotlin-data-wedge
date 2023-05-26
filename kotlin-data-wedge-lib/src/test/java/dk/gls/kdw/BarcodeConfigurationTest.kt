@@ -1,11 +1,11 @@
 package dk.gls.kdw
 
 import dk.gls.kdw.model.barcode.BarcodeConfiguration
-import dk.gls.kdw.model.barcode.DataMatrix
-import dk.gls.kdw.model.barcode.MatrixI2of5
+import dk.gls.kdw.model.barcode.matrix.DataMatrix
 import dk.gls.kdw.model.barcode.I2of5
-import dk.gls.kdw.model.barcode.model.SecurityLevel
+import dk.gls.kdw.model.barcode.matrix.MatrixI2of5
 import dk.gls.kdw.model.barcode.ScannerConfiguration
+import dk.gls.kdw.model.barcode.model.SecurityLevel
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,15 +41,12 @@ class BarcodeConfigurationTest {
 
         val barcodeConfiguration = BarcodeConfiguration(
             scannerConfiguration = ScannerConfiguration(),
-            configurations = listOf(
-                dataMatrix,
-                i2of5,
-                matrixI2Of5
-            )
+            dataMatrix = dataMatrix,
+            i2of5 = i2of5,
+            matrixI2of5 = matrixI2Of5
         ).toBundle()
 
-
-        val barcodePluginConfig = barcodeConfiguration.getBundle("PLUGIN_CONFIG")
+        val barcodePluginConfig = barcodeConfiguration.getBundle("PARAM_LIST")
         Assert.assertTrue(barcodePluginConfig!!.getBoolean("decoder_datamatrix"))
     }
 

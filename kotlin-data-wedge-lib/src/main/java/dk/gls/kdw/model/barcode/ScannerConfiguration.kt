@@ -12,10 +12,6 @@ data class ScannerConfiguration(
     val scannerSelection: ScannerIdentifier = ScannerIdentifier.AUTO,
     @SerialName("scanner_input_enabled")
     val inputEnabled: Boolean = true
-) : Bundleable {
+)
 
-    override fun toBundle(): Bundle {
-        return Bundler.bundle(serializer(), this)
-    }
-
-}
+fun ScannerConfiguration.toBundle(): Bundle = Bundler.bundle(ScannerConfiguration.serializer(), this)

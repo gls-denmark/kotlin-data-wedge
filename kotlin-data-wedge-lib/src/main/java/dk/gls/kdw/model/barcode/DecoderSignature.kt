@@ -1,5 +1,7 @@
 package dk.gls.kdw.model.barcode
 
+import android.os.Bundle
+import dk.gls.kdw.bundler.Bundler
 import dk.gls.kdw.model.barcode.model.BitsPerPixel
 import dk.gls.kdw.model.barcode.model.SignatureFormat
 import kotlinx.serialization.SerialName
@@ -48,3 +50,5 @@ data class DecoderSignature(
     @SerialName("decoder_signature_bpp")
     val bitsPerPixel: BitsPerPixel
 )
+
+fun DecoderSignature.toBundle(): Bundle = Bundler.bundle(DecoderSignature.serializer(), this)
