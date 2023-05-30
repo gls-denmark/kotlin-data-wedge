@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Aztec(
     @SerialName("decoder_aztec")
-    val enabled: Boolean = true,
+    val enabled: Boolean = true
 )
 
 fun Aztec.toBundle(): Bundle = Bundlizer.bundle(Aztec.serializer(), this)

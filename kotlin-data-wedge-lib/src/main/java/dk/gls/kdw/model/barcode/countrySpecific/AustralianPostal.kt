@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AustralianPostal(
     @SerialName("decoder_australian_postal")
-    val enabled: Boolean = true,
+    val enabled: Boolean = true
 )
 
 fun AustralianPostal.toBundle(): Bundle = Bundlizer.bundle(AustralianPostal.serializer(), this)
