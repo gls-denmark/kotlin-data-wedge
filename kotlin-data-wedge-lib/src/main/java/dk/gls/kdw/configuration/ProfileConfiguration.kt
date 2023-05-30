@@ -2,6 +2,8 @@ package dk.gls.kdw.configuration
 
 import android.os.Bundle
 import dk.gls.kdw.configuration.model.ConfigMode
+import dk.gls.kdw.configuration.plugin.PluginConfiguration
+import dk.gls.kdw.configuration.plugin.toBundle
 
 /**
  * @see <a href="https://techdocs.zebra.com/datawedge/latest/guide/api/setconfig/">Official documentation </a>

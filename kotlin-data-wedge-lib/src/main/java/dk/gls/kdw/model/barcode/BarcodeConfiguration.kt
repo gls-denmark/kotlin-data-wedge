@@ -46,6 +46,8 @@ class BarcodeConfiguration(
     fun toBundle(): Bundle {
         val barcodeConfigPropertyBundle = Bundle()
 
+        barcodeConfigPropertyBundle.putAll(scannerConfiguration.toBundle())
+
         australianPostal?.let {
             barcodeConfigPropertyBundle.putAll(it.toBundle())
         }

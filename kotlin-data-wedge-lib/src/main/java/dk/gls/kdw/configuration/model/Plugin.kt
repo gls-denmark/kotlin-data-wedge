@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 enum class Plugin {
 
     @SerialName("BARCODE")
-    BARCODE
+    BARCODE,
 
+    @SerialName("INTENT")
+    INTENT
 }

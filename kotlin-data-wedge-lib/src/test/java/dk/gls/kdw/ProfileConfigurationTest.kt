@@ -2,9 +2,10 @@ package dk.gls.kdw
 
 import android.os.Bundle
 import dk.gls.kdw.configuration.AppConfiguration
-import dk.gls.kdw.configuration.BarcodePluginConfiguration
-import dk.gls.kdw.configuration.model.ConfigMode
 import dk.gls.kdw.configuration.ProfileConfiguration
+import dk.gls.kdw.configuration.model.ConfigMode
+import dk.gls.kdw.configuration.plugin.BarcodePluginConfiguration
+import dk.gls.kdw.configuration.plugin.IntentPluginConfiguration
 import dk.gls.kdw.configuration.toBundle
 import dk.gls.kdw.model.barcode.BarcodeConfiguration
 import dk.gls.kdw.model.barcode.composite.CompositeAB
@@ -25,7 +26,7 @@ class ProfileConfigurationTest {
             activityList = arrayListOf("1", "2", "3")
         )
 
-        val pluginConfiguration = BarcodePluginConfiguration(
+        val barcodePluginConfiguration = BarcodePluginConfiguration(
             BarcodeConfiguration(
                 compositeAB = CompositeAB(
                     length1 = UCCLinkMode.ALWAYS_LINKED
@@ -33,16 +34,16 @@ class ProfileConfigurationTest {
             )
         )
 
-        val config = ProfileConfiguration(
+        val intentPluginConfiguration = IntentPluginConfiguration()
+
+        val bundle = ProfileConfiguration(
             enabled = true,
             name = "name",
             configMode = ConfigMode.OVERWRITE,
-            pluginConfigurations = arrayListOf(pluginConfiguration),
-            appList = arrayListOf(appConfig),
+            pluginConfigurations = arrayListOf(intentPluginConfiguration, barcodePluginConfiguration),
+            appList = arrayListOf(appConfig)
+        ).toBundle()
 
-        )
-
-        val bundle: Bundle = config.toBundle()
 
         Assert.assertTrue(bundle.getBoolean("PROFILE_ENABLED"))
         Assert.assertEquals("name", bundle.getString("PROFILE_NAME"))
@@ -50,15 +51,27 @@ class ProfileConfigurationTest {
 
         val pluginConfigurations = bundle.getParcelableArray("PLUGIN_CONFIG")!! as Array<Bundle>
 
-        val barcodeConfiguration = pluginConfigurations.first()
+        /** Intent plugin configuration **/
+        val intentConfiguration = pluginConfigurations[0]
+
+        Assert.assertEquals("INTENT", intentConfiguration.getString("PLUGIN_NAME"))
+
+        val intentParamListConfiguration = intentConfiguration.getBundle("PARAM_LIST")!!
+
+        Assert.assertTrue(intentParamListConfiguration.getBoolean("intent_output_enabled"))
+        Assert.assertEquals("2", intentParamListConfiguration.getString("intent_delivery"))
+        Assert.assertEquals("com.zebra.datacapture1.ACTION", intentParamListConfiguration.getString("intent_action"))
+
+        /** Barcode configuration **/
+        val barcodeConfiguration = pluginConfigurations[1]
 
         Assert.assertEquals("BARCODE", barcodeConfiguration.getString("PLUGIN_NAME"))
 
-        val paramListConfiguration = barcodeConfiguration.getBundle("PARAM_LIST")!!
-        Assert.assertTrue(paramListConfiguration.getBoolean("decoder_composite_ab"))
-        Assert.assertEquals(1, paramListConfiguration.getInt("decoder_composite_ab_ucc_link_mode"))
+        val barcodeParamListConfiguration = barcodeConfiguration.getBundle("PARAM_LIST")!!
+        Assert.assertTrue(barcodeParamListConfiguration.getBoolean("decoder_composite_ab"))
+        Assert.assertEquals(1, barcodeParamListConfiguration.getInt("decoder_composite_ab_ucc_link_mode"))
 
-
+        /** App configuration **/
         val appArray = bundle.getParcelableArray("APP_LIST")!! as Array<Bundle>
 
         Assert.assertEquals("packageName", appArray.first().getString("PACKAGE_NAME"))

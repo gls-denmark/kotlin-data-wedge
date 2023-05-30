@@ -6,12 +6,14 @@ import dk.gls.kdw.model.barcode.scanner.ScannerIdentifier
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
 data class ScannerConfiguration(
-    @SerialName("scanner_selection")
     val scannerSelection: ScannerIdentifier = ScannerIdentifier.AUTO,
-    @SerialName("scanner_input_enabled")
     val inputEnabled: Boolean = true
 )
 
-fun ScannerConfiguration.toBundle(): Bundle = Bundlizer.bundle(ScannerConfiguration.serializer(), this)
+fun ScannerConfiguration.toBundle(): Bundle {
+    return Bundle().apply {
+        this.putString("scanner_selection", scannerSelection.toString())
+        this.putBoolean("scanner_input_enabled", inputEnabled)
+    }
+}

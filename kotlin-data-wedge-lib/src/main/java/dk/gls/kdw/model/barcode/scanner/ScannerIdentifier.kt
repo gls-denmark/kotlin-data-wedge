@@ -1,8 +1,5 @@
 package dk.gls.kdw.model.barcode.scanner
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 enum class ScannerIdentifier {
 
     /**
@@ -74,6 +71,5 @@ enum class ScannerIdentifier {
      * Generic Zebra USB scanner
      */
     USB_ZEBRA
-
 
 }

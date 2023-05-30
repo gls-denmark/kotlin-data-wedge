@@ -1,10 +1,10 @@
 package dk.gls.kdw
 
 import dk.gls.kdw.model.barcode.BarcodeConfiguration
-import dk.gls.kdw.model.barcode.matrix.DataMatrix
 import dk.gls.kdw.model.barcode.I2of5
-import dk.gls.kdw.model.barcode.matrix.MatrixI2of5
 import dk.gls.kdw.model.barcode.ScannerConfiguration
+import dk.gls.kdw.model.barcode.matrix.DataMatrix
+import dk.gls.kdw.model.barcode.matrix.MatrixI2of5
 import dk.gls.kdw.model.barcode.model.SecurityLevel
 import org.junit.Assert
 import org.junit.Test
@@ -38,25 +38,26 @@ class BarcodeConfigurationTest {
             verifyCheckDigit = false
         )
 
-
-        val barcodeConfiguration = BarcodeConfiguration(
+        val barcodeConfigBundle = BarcodeConfiguration(
             scannerConfiguration = ScannerConfiguration(),
             dataMatrix = dataMatrix,
             i2of5 = i2of5,
             matrixI2of5 = matrixI2Of5
         ).toBundle()
 
-        val barcodePluginConfig = barcodeConfiguration.getBundle("PARAM_LIST")!!
-        Assert.assertTrue(barcodePluginConfig.getBoolean("decoder_datamatrix"))
+        Assert.assertEquals("AUTO", barcodeConfigBundle.getString("scanner_selection"))
+        Assert.assertEquals(true, barcodeConfigBundle.getBoolean("scanner_input_enabled"))
 
-        Assert.assertEquals(barcodePluginConfig.getInt("decoder_i2of5_length1"), 12)
-        Assert.assertEquals(barcodePluginConfig.getInt("decoder_i2of5_length2"), 12)
-        Assert.assertEquals(barcodePluginConfig.getBoolean("decoder_i2of5_redundancy"), true)
+        Assert.assertTrue(barcodeConfigBundle.getBoolean("decoder_datamatrix"))
 
-        Assert.assertTrue(barcodePluginConfig.getBoolean("decoder_matrix_2of5"))
-        Assert.assertEquals(barcodePluginConfig.getInt("decoder_matrix_2of5_length1"), 12)
-        Assert.assertEquals(barcodePluginConfig.getInt("decoder_matrix_2of5_length2"), 12)
-        Assert.assertTrue(barcodePluginConfig.getBoolean("decoder_matrix_2of5_redundancy"))
+        Assert.assertEquals(12, barcodeConfigBundle.getInt("decoder_i2of5_length1"))
+        Assert.assertEquals(12, barcodeConfigBundle.getInt("decoder_i2of5_length2"))
+        Assert.assertEquals(true, barcodeConfigBundle.getBoolean("decoder_i2of5_redundancy"))
+
+        Assert.assertTrue(barcodeConfigBundle.getBoolean("decoder_matrix_2of5"))
+        Assert.assertEquals(12, barcodeConfigBundle.getInt("decoder_matrix_2of5_length1"))
+        Assert.assertEquals(12, barcodeConfigBundle.getInt("decoder_matrix_2of5_length2"))
+        Assert.assertTrue(barcodeConfigBundle.getBoolean("decoder_matrix_2of5_redundancy"))
     }
 
 }

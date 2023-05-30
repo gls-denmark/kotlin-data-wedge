@@ -1,8 +1,7 @@
-package dk.gls.kdw.configuration
+package dk.gls.kdw.configuration.plugin
 
 import android.os.Bundle
 import dk.gls.kdw.configuration.model.Plugin
-import dk.gls.kdw.model.barcode.BarcodeConfiguration
 
 open class PluginConfiguration(
     val pluginName: Plugin,
@@ -17,8 +16,3 @@ fun PluginConfiguration.toBundle() : Bundle {
         this.putBoolean("RESET_CONFIG", this@toBundle.configModeReset)
     }
 }
-
-data class BarcodePluginConfiguration(
-    val barcodeConfiguration: BarcodeConfiguration,
-    override val configModeReset: Boolean = true
-) : PluginConfiguration(Plugin.BARCODE, barcodeConfiguration.toBundle(), configModeReset)
