@@ -14,6 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "kotlin-data-wedge"
-include(":app")
 include(":kotlin-data-wedge-lib")
-include(":mylibrary")
