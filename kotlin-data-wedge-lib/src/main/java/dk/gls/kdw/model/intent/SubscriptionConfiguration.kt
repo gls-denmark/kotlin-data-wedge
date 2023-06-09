@@ -9,8 +9,8 @@ data class SubscriptionConfiguration(
 
 fun SubscriptionConfiguration.toBundle(): Bundle {
     return Bundle().apply {
-        this.putBoolean("intent_output_enabled", enabled)
-        this.putString("intent_delivery", intentDelivery.value)
+        this.putString("intent_output_enabled", enabled.toString())
+        this.putInt("intent_delivery", intentDelivery.value)
         this.putString("intent_action", "com.zebra.datacapture1.ACTION")
     }
 }

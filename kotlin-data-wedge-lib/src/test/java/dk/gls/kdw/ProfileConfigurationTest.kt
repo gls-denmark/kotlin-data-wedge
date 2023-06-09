@@ -59,8 +59,8 @@ class ProfileConfigurationTest {
 
         val intentParamListConfiguration = intentConfiguration.getBundle("PARAM_LIST")!!
 
-        Assert.assertTrue(intentParamListConfiguration.getBoolean("intent_output_enabled"))
-        Assert.assertEquals("2", intentParamListConfiguration.getString("intent_delivery"))
+        Assert.assertEquals(intentParamListConfiguration.getString("intent_output_enabled"), "true")
+        Assert.assertEquals(2, intentParamListConfiguration.getInt("intent_delivery"))
         Assert.assertEquals("com.zebra.datacapture1.ACTION", intentParamListConfiguration.getString("intent_action"))
         //endregion
 

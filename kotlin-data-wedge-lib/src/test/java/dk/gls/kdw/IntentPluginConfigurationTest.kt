@@ -20,8 +20,8 @@ class IntentPluginConfigurationTest {
 
         val paramListConfiguration = intentPluginConfiguration.getBundle("PARAM_LIST")!!
 
-        Assert.assertTrue(paramListConfiguration.getBoolean("intent_output_enabled"))
-        Assert.assertEquals("2", paramListConfiguration.getString("intent_delivery"))
+        Assert.assertEquals(paramListConfiguration.getString("intent_output_enabled"), "true")
+        Assert.assertEquals(2, paramListConfiguration.getInt("intent_delivery"))
         Assert.assertEquals("com.zebra.datacapture1.ACTION", paramListConfiguration.getString("intent_action"))
     }
 
