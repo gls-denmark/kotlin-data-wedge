@@ -20,7 +20,7 @@ class ProfileConfigurationTest {
 
     @Test
     fun profile_configuration_bundle_test() {
-
+        //region Arrange
         val appConfig = AppConfiguration(
             packageName = "packageName",
             activityList = arrayListOf("1", "2", "3")
@@ -44,14 +44,15 @@ class ProfileConfigurationTest {
             appList = arrayListOf(appConfig)
         ).toBundle()
 
+        //endregion
 
         Assert.assertTrue(bundle.getBoolean("PROFILE_ENABLED"))
         Assert.assertEquals("name", bundle.getString("PROFILE_NAME"))
         Assert.assertEquals("OVERWRITE", bundle.getString("CONFIG_MODE"))
 
-        val pluginConfigurations = bundle.getParcelableArray("PLUGIN_CONFIG")!! as Array<Bundle>
+        val pluginConfigurations = bundle.getParcelableArrayList<Bundle>("PLUGIN_CONFIG")!!
 
-        /** Intent plugin configuration **/
+        //region Intent plugin configuration
         val intentConfiguration = pluginConfigurations[0]
 
         Assert.assertEquals("INTENT", intentConfiguration.getString("PLUGIN_NAME"))
@@ -61,8 +62,9 @@ class ProfileConfigurationTest {
         Assert.assertTrue(intentParamListConfiguration.getBoolean("intent_output_enabled"))
         Assert.assertEquals("2", intentParamListConfiguration.getString("intent_delivery"))
         Assert.assertEquals("com.zebra.datacapture1.ACTION", intentParamListConfiguration.getString("intent_action"))
+        //endregion
 
-        /** Barcode configuration **/
+        //region Barcode configuration
         val barcodeConfiguration = pluginConfigurations[1]
 
         Assert.assertEquals("BARCODE", barcodeConfiguration.getString("PLUGIN_NAME"))
@@ -70,12 +72,14 @@ class ProfileConfigurationTest {
         val barcodeParamListConfiguration = barcodeConfiguration.getBundle("PARAM_LIST")!!
         Assert.assertTrue(barcodeParamListConfiguration.getBoolean("decoder_composite_ab"))
         Assert.assertEquals(1, barcodeParamListConfiguration.getInt("decoder_composite_ab_ucc_link_mode"))
+        //endregion
 
-        /** App configuration **/
+        //region App configuration
         val appArray = bundle.getParcelableArray("APP_LIST")!! as Array<Bundle>
 
         Assert.assertEquals("packageName", appArray.first().getString("PACKAGE_NAME"))
-        Assert.assertEquals(3, appArray.first().getStringArrayList("ACTIVITY_LIST")!!.size)
+        Assert.assertEquals(3, appArray.first().getStringArray("ACTIVITY_LIST")!!.size)
+        //endregion
     }
 
 }

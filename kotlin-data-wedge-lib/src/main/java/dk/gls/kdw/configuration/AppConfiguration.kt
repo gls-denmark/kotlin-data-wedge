@@ -5,13 +5,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 data class AppConfiguration(
-    val packageName: String = "",
-    val activityList: ArrayList<String> = arrayListOf("*")
+    val packageName: String,
+    val activityList: List<String> = listOf("*")
 )
 
 fun AppConfiguration.toBundle(): Bundle {
     return Bundle().apply {
         this@apply.putString("PACKAGE_NAME", packageName)
-        this@apply.putStringArrayList("ACTIVITY_LIST", activityList)
+        this@apply.putStringArray("ACTIVITY_LIST", activityList.toTypedArray())
     }
 }

@@ -22,13 +22,13 @@ fun ProfileConfiguration.toBundle(): Bundle {
         this@apply.putString("PROFILE_NAME", name)
         this@apply.putString("CONFIG_MODE", configMode.toString())
 
-        val pluginBundles = arrayOf(*pluginConfigurations
+        val pluginBundles = arrayListOf(*pluginConfigurations
             .map {
                 it.toBundle()
             }
             .toTypedArray()
         )
-        this@apply.putParcelableArray("PLUGIN_CONFIG", pluginBundles)
+        this@apply.putParcelableArrayList("PLUGIN_CONFIG", pluginBundles)
 
         val appBundles = arrayOf(*appList
             .map {

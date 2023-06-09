@@ -22,7 +22,7 @@ class AppConfigurationTest {
         val bundle: Bundle = config.toBundle()
 
         Assert.assertEquals("packageName", bundle.getString("PACKAGE_NAME"))
-        Assert.assertEquals(3, bundle.getStringArrayList("ACTIVITY_LIST")!!.size)
+        Assert.assertEquals(3, bundle.getStringArray("ACTIVITY_LIST")!!.size)
     }
 
 }
