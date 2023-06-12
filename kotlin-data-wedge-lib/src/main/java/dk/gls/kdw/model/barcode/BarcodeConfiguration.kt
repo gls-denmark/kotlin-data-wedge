@@ -103,10 +103,6 @@ class BarcodeConfiguration(
             barcodeConfigPropertyBundle.putAll(it.toBundle())
         }
 
-        /*barcodeConfigPropertyBundle.putString("intent_output_enabled", "true")
-        barcodeConfigPropertyBundle.putInt("intent_delivery", 2)
-        barcodeConfigPropertyBundle.putString("intent_action", "com.zebra.datacapture1.ACTION")*/
-
         return barcodeConfigPropertyBundle
     }
 
