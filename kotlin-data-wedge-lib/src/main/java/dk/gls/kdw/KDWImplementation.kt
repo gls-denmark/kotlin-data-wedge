@@ -13,14 +13,17 @@ open class KDWImplementation : IKDW {
         private const val ACTION_DATA_WEDGE = "com.symbol.datawedge.api.ACTION"
     }
 
-    override fun configure(context: Context, profileConfiguration: ProfileConfiguration, scannerController: ScannerController) {
+    override fun configure(
+        context: Context,
+        profileConfiguration: ProfileConfiguration
+    ) {
         //Create and broadcast intent configuring scanner
         val dataWedgeIntent = Intent()
         dataWedgeIntent.action = ACTION_DATA_WEDGE
         dataWedgeIntent.putExtra(EXTRA_SET_CONFIG, profileConfiguration.toBundle())
         context.sendBroadcast(dataWedgeIntent)
 
-        this._scannerController = scannerController
+        this._scannerController = ScannerController(context)
     }
 
     private var _scannerController: ScannerController? = null

@@ -1,6 +1,4 @@
-package dk.gls.kdw.configuration.scanner
-
-import dk.gls.kdw.model.scanner.ScannerResult
+package dk.gls.kdw.model.scanner
 
 sealed interface ScannerOutput {
     class Result(val scannerResult: ScannerResult) : ScannerOutput

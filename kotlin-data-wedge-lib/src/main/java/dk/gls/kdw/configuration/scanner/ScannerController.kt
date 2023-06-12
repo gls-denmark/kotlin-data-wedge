@@ -5,15 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
+import dk.gls.kdw.model.scanner.ScannerOutput
 import dk.gls.kdw.model.scanner.ScannerResult
+import dk.gls.kdw.model.scanner.toScannerStatusEnum
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.onClosed
-import kotlinx.coroutines.channels.onFailure
-import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,7 +58,6 @@ class ScannerController(
     }
 
 
-
     private val scope = CoroutineScope(dispatcher)
 
     init {
@@ -98,15 +95,6 @@ class ScannerController(
                     if (intent.action == INTENT_FILTER_ACTION) {
                         val scannerResult = extractDataFromIntent(intent)
                         trySendBlocking(ScannerOutput.Result(scannerResult))
-                            .onSuccess {
-                                Log.d(TAG, "ScannerOutput, onSuccess")
-                            }
-                            .onFailure {
-                                Log.d(TAG, "ScannerOutput, onFailure", it)
-                            }
-                            .onClosed {
-                                Log.d(TAG, "ScannerOutput, onClosed", it)
-                            }
                     }
                     // Received a scanner or profile switch status notification
                     if (intent.action == ACTION_RESULT_NOTIFICATION) {
@@ -121,17 +109,9 @@ class ScannerController(
                                 scannerStatus?.let {
                                     val statusEnum = it.toScannerStatusEnum()
                                     trySendBlocking(ScannerOutput.Status(statusEnum))
-                                        .onSuccess {
-                                            Log.d(TAG, "ScannerStatus, onSuccess")
-                                        }
-                                        .onFailure {
-                                            Log.d(TAG, "ScannerStatus, onFailure", it)
-                                        }
-                                        .onClosed {
-                                            Log.d(TAG, "ScannerStatus, onClosed", it)
-                                        }
                                 }
                             }
+
                             EXTRA_KEY_VALUE_PROFILE_SWITCH -> {
                                 // I am not totally sure when we are interested in this
                                 val notificationProfileName = extras.getString(EXTRA_KEY_VALUE_NOTIFICATION_PROFILE_NAME)
