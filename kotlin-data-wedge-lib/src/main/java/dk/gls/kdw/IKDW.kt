@@ -7,7 +7,7 @@ import dk.gls.kdw.model.barcode.ScannerConfiguration
 
 interface IKDW {
 
-    fun configure(context: Context, profileConfiguration: ProfileConfiguration)
+    fun configure(context: Context, profileConfiguration: ProfileConfiguration, scannerController: ScannerController? = null)
 
     val scannerController: ScannerController
 

@@ -3,6 +3,8 @@ package dk.gls.kdw
 import android.content.Context
 import android.content.Intent
 import dk.gls.kdw.configuration.ProfileConfiguration
+import dk.gls.kdw.configuration.scanner.DataWedgeHardwareScanner
+import dk.gls.kdw.configuration.scanner.ParityFlowScannerController
 import dk.gls.kdw.configuration.scanner.ScannerController
 import dk.gls.kdw.configuration.toBundle
 
@@ -15,7 +17,8 @@ open class KDWImplementation : IKDW {
 
     override fun configure(
         context: Context,
-        profileConfiguration: ProfileConfiguration
+        profileConfiguration: ProfileConfiguration,
+        scannerController: ScannerController?
     ) {
         //Create and broadcast intent configuring scanner
         val dataWedgeIntent = Intent()
@@ -23,7 +26,9 @@ open class KDWImplementation : IKDW {
         dataWedgeIntent.putExtra(EXTRA_SET_CONFIG, profileConfiguration.toBundle())
         context.sendBroadcast(dataWedgeIntent)
 
-        this._scannerController = ScannerController(context)
+        this._scannerController = scannerController ?: ParityFlowScannerController(
+            DataWedgeHardwareScanner(context)
+        )
     }
 
     private var _scannerController: ScannerController? = null
