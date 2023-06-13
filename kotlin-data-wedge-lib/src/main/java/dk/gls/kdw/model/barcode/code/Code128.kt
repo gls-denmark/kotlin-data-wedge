@@ -31,7 +31,7 @@ data class Code128(
      * Enable GS1-128
      */
     @SerialName("decoder_code128_enable_ean128")
-    val enabledEan128: CheckDigit,
+    val enabledEan128: Boolean,
     /**
      * Enable ISBT128
      */
