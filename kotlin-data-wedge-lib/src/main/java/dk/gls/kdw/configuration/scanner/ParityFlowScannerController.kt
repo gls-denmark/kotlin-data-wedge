@@ -11,29 +11,44 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class ParityFlowScannerController(
-    dataWedgeHardwareScanner: DataWedgeHardwareScanner
-) : ScannerController(dataWedgeHardwareScanner) {
+/**
+ * The parity flow scanner controller filters unnecessary calls to the underlying [DataWedgeHardwareScanner] by checking the last reported scanner status before sending new resume or suspend commands
+ * Therefore this scanner controllers [resumeScanner] and [suspendScanner] methods can safely be called multiple times without resulting in unnecessary broadcast intents being send to the Data wedge
+ */
+class ParityFlowScannerController : ScannerController() {
 
     //We have an actual scanner status flow and a wished scanner status flow for combining later
     private val actualScannerStatusEnumFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
     private val wishedScannerStatusFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
 
     init {
+        this.dataWedgeHardwareScanner = dataWedgeHardwareScanner
+
         GlobalScope.launch {
             subscribeToScannerFlow()
             scannerStatusParityFlow()
         }
     }
 
+    /**
+     * Receive the [ScannerOutput] as a flow
+     */
     override fun scannerOutputFlow(): Flow<ScannerOutput> = dataWedgeHardwareScanner.scannerOutputFlow()
 
     //region Scanner status public interface
 
+    /**
+     * Suspend the scanner
+     * Only calls suspend on the hardware scanner if the current state is not suspend
+     */
     override fun suspendScanner() {
         wishedScannerStatusFlow.tryEmit(ScannerSimpleStatus.Disabled)
     }
 
+    /**
+     * Resume the scanner
+     * Only calls resume on the hardware scanner if the current state is not resume
+     */
     override fun resumeScanner() {
         wishedScannerStatusFlow.tryEmit(ScannerSimpleStatus.Enabled)
     }
@@ -66,6 +81,9 @@ class ParityFlowScannerController(
     }
 }
 
+/**
+ * A convenience interface used to map the different [ScannerStatus] states into the two states we are interested in -> Enabled or Disabled
+ */
 internal sealed interface ScannerSimpleStatus {
     object Enabled : ScannerSimpleStatus
     object Disabled : ScannerSimpleStatus

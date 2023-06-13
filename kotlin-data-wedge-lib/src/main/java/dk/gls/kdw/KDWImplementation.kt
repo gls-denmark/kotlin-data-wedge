@@ -1,19 +1,13 @@
 package dk.gls.kdw
 
 import android.content.Context
-import android.content.Intent
 import dk.gls.kdw.configuration.ProfileConfiguration
+import dk.gls.kdw.configuration.SetConfigConfiguration
 import dk.gls.kdw.configuration.scanner.DataWedgeHardwareScanner
 import dk.gls.kdw.configuration.scanner.ParityFlowScannerController
 import dk.gls.kdw.configuration.scanner.ScannerController
-import dk.gls.kdw.configuration.toBundle
 
 open class KDWImplementation : IKDW {
-
-    companion object {
-        private const val EXTRA_SET_CONFIG = "com.symbol.datawedge.api.SET_CONFIG"
-        private const val ACTION_DATA_WEDGE = "com.symbol.datawedge.api.ACTION"
-    }
 
     override fun configure(
         context: Context,
@@ -21,14 +15,16 @@ open class KDWImplementation : IKDW {
         scannerController: ScannerController?
     ) {
         //Create and broadcast intent configuring scanner
-        val dataWedgeIntent = Intent()
-        dataWedgeIntent.action = ACTION_DATA_WEDGE
-        dataWedgeIntent.putExtra(EXTRA_SET_CONFIG, profileConfiguration.toBundle())
+        val dataWedgeIntent = SetConfigConfiguration(
+            profileConfiguration = profileConfiguration
+        ).toIntent()
         context.sendBroadcast(dataWedgeIntent)
 
-        this._scannerController = scannerController ?: ParityFlowScannerController(
-            DataWedgeHardwareScanner(context)
-        )
+        this._scannerController = scannerController ?: ParityFlowScannerController()
+
+        this._scannerController.apply {
+            this!!.dataWedgeHardwareScanner = DataWedgeHardwareScanner(context)
+        }
     }
 
     private var _scannerController: ScannerController? = null

@@ -3,9 +3,12 @@ package dk.gls.kdw.configuration.scanner
 import dk.gls.kdw.model.scanner.ScannerOutput
 import kotlinx.coroutines.flow.Flow
 
-abstract class ScannerController(
-    val dataWedgeHardwareScanner: DataWedgeHardwareScanner
-) {
+/**
+ * The scanner controller makes it possible to suspend and resume the scanner and monitor [ScannerOutput] using a Flow
+ */
+abstract class ScannerController {
+
+    lateinit var dataWedgeHardwareScanner: DataWedgeHardwareScanner
 
     abstract fun scannerOutputFlow(): Flow<ScannerOutput>
 
