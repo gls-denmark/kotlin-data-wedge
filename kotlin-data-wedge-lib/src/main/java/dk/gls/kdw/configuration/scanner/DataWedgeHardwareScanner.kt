@@ -105,7 +105,6 @@ class DataWedgeHardwareScanner(
                             EXTRA_KEY_VALUE_SCANNER_STATUS -> {
                                 val scannerStatus = extras.getString(EXTRA_KEY_VALUE_NOTIFICATION_STATUS)
 
-                                //TODO Add error handling in case scanner status is null?
                                 scannerStatus?.let {
                                     val statusEnum = it.toScannerStatusEnum()
                                     trySendBlocking(ScannerOutput.Status(statusEnum))

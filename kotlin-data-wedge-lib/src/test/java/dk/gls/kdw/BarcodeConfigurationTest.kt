@@ -20,7 +20,7 @@ import org.robolectric.RobolectricTestRunner
 class BarcodeConfigurationTest {
 
     @Test
-    fun barcode_configuration_test() {
+    fun barcode_configuration_bundle_created_correct() {
 
         val dataMatrix = DataMatrix()
         val i2of5 = I2of5(

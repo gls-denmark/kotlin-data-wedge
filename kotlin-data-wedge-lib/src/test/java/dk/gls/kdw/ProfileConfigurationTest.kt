@@ -19,7 +19,7 @@ import org.robolectric.RobolectricTestRunner
 class ProfileConfigurationTest {
 
     @Test
-    fun profile_configuration_bundle_test() {
+    fun profile_configuration_bundle_created_correct() {
         //region Arrange
         val appConfig = AppConfiguration(
             packageName = "packageName",

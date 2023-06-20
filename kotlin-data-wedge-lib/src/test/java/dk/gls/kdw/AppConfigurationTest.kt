@@ -12,7 +12,7 @@ import org.robolectric.RobolectricTestRunner
 class AppConfigurationTest {
 
     @Test
-    fun app_configuration_bundle_test() {
+    fun app_configuration_bundle_created_correct() {
 
         val config = AppConfiguration(
             "packageName",

@@ -11,7 +11,7 @@ import org.robolectric.RobolectricTestRunner
 class IntentPluginConfigurationTest {
 
     @Test
-    fun intent_configuration_test() {
+    fun intent_configuration_bundle_created_correct() {
 
         val intentPluginConfiguration = IntentPluginConfiguration()
             .toBundle()
