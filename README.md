@@ -8,7 +8,7 @@ Consult the [Zebra Data wedge documentation here](https://techdocs.zebra.com/dat
 ## KDW interface
 The KDW interface is used to interact with the library.
 
-The KDW interface has a configure method that receives a list of wished profile configurations.
+The KDW interface has a configure method that receives a list of desired profile configurations.
 
 The library currently support configuration of the following plugin configurations
 - BarcodePluginConfiguration
@@ -98,7 +98,7 @@ KDW.configure(
 ```
 
 ### ScannerController
-The scanner controller makes it possible to `resumeScanner` and `suspendScanner` turning the scanner completely of, making the hardware buttons do nothing until resumed. 
+The scanner controller makes it possible to `resumeScanner` and `suspendScanner` turning the scanner completely off, making the hardware buttons do nothing until resumed. 
 
 Furthermore the `ScannerController` exposes the `scannerOutputFlow` which can be collected in order to receive updates on the current scanner state.
 
