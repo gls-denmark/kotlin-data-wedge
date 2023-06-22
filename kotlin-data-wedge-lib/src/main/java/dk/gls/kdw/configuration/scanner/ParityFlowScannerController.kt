@@ -17,9 +17,9 @@ import kotlinx.coroutines.launch
  */
 class ParityFlowScannerController : ScannerController() {
 
-    //We have an actual scanner status flow and a wished scanner status flow for combining later
+    //We have an actual scanner status flow and a desired scanner status flow for combining later
     private val actualScannerStatusEnumFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
-    private val wishedScannerStatusFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
+    private val desiredScannerStatusFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
 
     init {
         this.dataWedgeHardwareScanner = dataWedgeHardwareScanner
@@ -42,7 +42,7 @@ class ParityFlowScannerController : ScannerController() {
      * Only calls suspend on the hardware scanner if the current state is not suspend
      */
     override fun suspendScanner() {
-        wishedScannerStatusFlow.tryEmit(ScannerSimpleStatus.Disabled)
+        desiredScannerStatusFlow.tryEmit(ScannerSimpleStatus.Disabled)
     }
 
     /**
@@ -50,7 +50,7 @@ class ParityFlowScannerController : ScannerController() {
      * Only calls resume on the hardware scanner if the current state is not resume
      */
     override fun resumeScanner() {
-        wishedScannerStatusFlow.tryEmit(ScannerSimpleStatus.Enabled)
+        desiredScannerStatusFlow.tryEmit(ScannerSimpleStatus.Enabled)
     }
 
     //endregion
@@ -67,12 +67,12 @@ class ParityFlowScannerController : ScannerController() {
         }
     }
 
-    /** Combine actual and wished flows and toggle the scanner if they are not equal **/
+    /** Combine actual and desired flows and toggle the scanner if they are not equal **/
     private fun CoroutineScope.scannerStatusParityFlow() = launch {
-        combine(actualScannerStatusEnumFlow, wishedScannerStatusFlow) { actual, wished ->
-            Log.d("ParityFlowScannerController", "scannerStatusParityFlow: $actual, $wished")
-            if (actual != wished) {
-                when (wished) {
+        combine(actualScannerStatusEnumFlow, desiredScannerStatusFlow) { actual, desired ->
+            Log.d("ParityFlowScannerController", "scannerStatusParityFlow: $actual, $desired")
+            if (actual != desired) {
+                when (desired) {
                     ScannerSimpleStatus.Disabled -> dataWedgeHardwareScanner.suspendScanner()
                     ScannerSimpleStatus.Enabled -> dataWedgeHardwareScanner.resumeScanner()
                 }
