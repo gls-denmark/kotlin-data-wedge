@@ -125,12 +125,12 @@ class ScannerControllerViewModel : ViewModel() {
 It is possible to have several subscribers on the `ScannerController` at the same time. 
 
 #### Custom ScannerController
-In case you want to have full control of how the scanner controller behaves you can provide a custom `ScannerController` to the `KDW.configure` method.
+In case you want to have full control of how the scanner controller behaves you can provide a custom `ScannerController` implementation to the `KDW.configure` method.
 It makes it possible to add potential custom code before forwarding it to the the `dataWedgeHardwareScanner`.
 
 An example of a custom scanner control that just forwards the resume and suspend commands but filters the `scannerOutputFlow()` to only emit `ScannerOutput.Result`
 ```
-class CustomScannerController : ScannerController() {
+class CustomScannerController(dataWedgeHardwareScanner: DataWedgeHardwareScanner) : ScannerController(dataWedgeHardwareScanner) {
 
     override fun resumeScanner() {
         dataWedgeHardwareScanner.resumeScanner()
@@ -144,4 +144,15 @@ class CustomScannerController : ScannerController() {
         return dataWedgeHardwareScanner.scannerOutputFlow().filterIsInstance(ScannerOutput.Result::class)
     }
 }
+```
+
+It can then be provided to the KDW.configure method like so
+```
+KDW.configure(
+    context = context,
+    profileConfiguration = profileConfiguration,
+    scannerControllerConfiguration = { dataWedgeHardwareScanner ->
+        CustomScannerController(dataWedgeHardwareScanner)
+    }
+)
 ```

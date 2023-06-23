@@ -15,15 +15,13 @@ import kotlinx.coroutines.launch
  * The parity flow scanner controller filters unnecessary calls to the underlying [DataWedgeHardwareScanner] by checking the last reported scanner status before sending new resume or suspend commands
  * Therefore this scanner controllers [resumeScanner] and [suspendScanner] methods can safely be called multiple times without resulting in unnecessary broadcast intents being send to the Data wedge
  */
-class ParityFlowScannerController : ScannerController() {
+class ParityFlowScannerController(dataWedgeHardwareScanner: DataWedgeHardwareScanner) : ScannerController(dataWedgeHardwareScanner) {
 
     //We have an actual scanner status flow and a desired scanner status flow for combining later
     private val actualScannerStatusEnumFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
     private val desiredScannerStatusFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
 
     init {
-        this.dataWedgeHardwareScanner = dataWedgeHardwareScanner
-
         GlobalScope.launch {
             subscribeToScannerFlow()
             scannerStatusParityFlow()

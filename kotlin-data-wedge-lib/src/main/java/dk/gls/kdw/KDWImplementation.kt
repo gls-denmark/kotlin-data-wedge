@@ -12,7 +12,7 @@ open class KDWImplementation : IKDW {
     override fun configure(
         context: Context,
         profileConfiguration: ProfileConfiguration,
-        scannerController: ScannerController?
+        scannerControllerConfiguration: ((dataWedgeHardwareScanner: DataWedgeHardwareScanner) -> ScannerController)?
     ) {
         //Create and broadcast intent configuring scanner
         val dataWedgeIntent = SetConfigConfiguration(
@@ -20,11 +20,9 @@ open class KDWImplementation : IKDW {
         ).toIntent()
         context.sendBroadcast(dataWedgeIntent)
 
-        this._scannerController = scannerController ?: ParityFlowScannerController()
+        val dataWedgeHardwareScanner = DataWedgeHardwareScanner(context)
 
-        this._scannerController.apply {
-            this!!.dataWedgeHardwareScanner = DataWedgeHardwareScanner(context)
-        }
+        this._scannerController = scannerControllerConfiguration?.invoke(dataWedgeHardwareScanner) ?: ParityFlowScannerController(dataWedgeHardwareScanner)
     }
 
     private var _scannerController: ScannerController? = null
