@@ -5,7 +5,7 @@ plugins {
     id("kotlinx-serialization")
 }
 
-version = "0.0.2"
+version = "0.0.3"
 
 android {
     namespace = "dk.gls.kdw"
@@ -20,13 +20,13 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_14
+        targetCompatibility = JavaVersion.VERSION_14
     }
     testOptions {
         unitTests {
@@ -36,7 +36,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(14)
 }
 
 
@@ -50,7 +50,7 @@ dependencies {
     /* Serialization */
     val kotlinxSerializationJsonVersion = "1.4.0"
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationJsonVersion")
-    implementation("dev.ahmedmourad.bundlizer:bundlizer-core:0.7.0")
+    //implementation("dev.ahmedmourad.bundlizer:bundlizer-core:0.7.0")
 
     /* Test */
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

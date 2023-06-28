@@ -1,10 +1,7 @@
 package dk.gls.kdw.model.barcode
 
 import android.os.Bundle
-import dev.ahmedmourad.bundlizer.Bundlizer
 import dk.gls.kdw.model.barcode.scanner.ScannerIdentifier
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 data class ScannerConfiguration(
     val scannerSelection: ScannerIdentifier = ScannerIdentifier.AUTO,
