@@ -50,7 +50,6 @@ dependencies {
     /* Serialization */
     val kotlinxSerializationJsonVersion = "1.4.0"
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationJsonVersion")
-    //implementation("dev.ahmedmourad.bundlizer:bundlizer-core:0.7.0")
 
     /* Test */
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
