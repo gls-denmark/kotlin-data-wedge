@@ -1,8 +1,8 @@
 package dk.gls.kdw.model.barcode
 
 import android.os.Bundle
-import dev.ahmedmourad.bundlizer.Bundlizer
 import dk.gls.kdw.model.barcode.model.SecurityLevel
+import dk.gls.kdw.serilization.Bundlizer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
