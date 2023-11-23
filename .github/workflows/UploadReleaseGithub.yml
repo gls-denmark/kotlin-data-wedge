@@ -1,0 +1,19 @@
+name: Upload release github
+
+on:
+  push:
+    tags:
+      - release.**
+
+jobs:
+  build:
+    environment: build
+    env:
+      GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+      GIT_AUTH_TOKEN: ${{ secrets.GIT_AUTH_TOKEN }}
+    runs-on:
+      group: Trifork-Android-Frontend-Group
+    steps:
+    # Upload aar file to github repo
+      - name: Upload release github
+        run: ./gradlew publish

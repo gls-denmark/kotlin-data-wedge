@@ -5,7 +5,9 @@ plugins {
     id("kotlinx-serialization")
 }
 
-version = "0.0.3"
+val libraryGroupId = "dk.gls"
+val libraryArtifactId = "kotlin-data-wedge"
+val libraryVersion = "0.0.3"
 
 android {
     namespace = "dk.gls.kdw"
@@ -25,8 +27,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_14
-        targetCompatibility = JavaVersion.VERSION_14
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     testOptions {
         unitTests {
@@ -36,7 +38,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(14)
+    jvmToolchain(17)
 }
 
 
@@ -58,6 +60,43 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.10.3")
 }
 
-apply {
-    from("../publish.gradle")
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/gls-denmark/kotlin-data-wedge")
+            credentials {
+                username = getEnvironmentVariable("GIT_USERNAME")
+                password = getEnvironmentVariable("GIT_AUTH_TOKEN")
+            }
+        }
+    }
+    publications {
+        register<MavenPublication>("release") {
+            groupId = libraryGroupId
+            artifactId = libraryArtifactId
+            version = libraryVersion
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+}
+
+fun getEnvironmentVariable(variableName: String): String {
+    return try {
+        //Try to get the variable from gradle.properties
+        extra[variableName].toString()
+    } catch (e: ExtraPropertiesExtension.UnknownPropertyException) {
+        //Try to get the variable from the environment
+        System.getenv(variableName)
+            .let {
+                if (it?.isNotEmpty() == true) {
+                    "$it"
+                } else {
+                    "\"\""
+                }
+            }
+    }
 }
