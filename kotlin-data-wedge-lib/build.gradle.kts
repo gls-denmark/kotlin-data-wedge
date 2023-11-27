@@ -7,7 +7,7 @@ plugins {
 
 val libraryGroupId = "dk.gls"
 val libraryArtifactId = "kotlin-data-wedge"
-val libraryVersion = "0.0.3-test"
+val libraryVersion = "0.0.3"
 
 android {
     namespace = "dk.gls.kdw"
