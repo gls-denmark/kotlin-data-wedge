@@ -11,10 +11,10 @@ val libraryVersion = "0.0.5"
 
 android {
     namespace = "dk.gls.kdw"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 30
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

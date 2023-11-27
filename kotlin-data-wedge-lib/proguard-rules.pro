@@ -26,7 +26,7 @@
 }
 
 -keep class dk.gls.kdw.configuration.** {
-     *;
+    *;
 }
 
 -keep class dk.gls.kdw.configuration.model.** {
@@ -58,10 +58,6 @@
 }
 
 -keep class dk.gls.kdw.model.scanner.** {
-    *;
-}
-
--keep class dk.gls.kdw.KDW {
     *;
 }
 
