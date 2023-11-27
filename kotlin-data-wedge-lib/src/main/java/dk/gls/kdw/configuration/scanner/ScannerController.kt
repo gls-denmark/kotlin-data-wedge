@@ -16,4 +16,6 @@ abstract class ScannerController(
 
     abstract fun resumeScanner()
 
+    abstract fun remoteScannerNotification(deviceId: DeviceId, notifications: List<RemoteScannerNotification>)
+
 }

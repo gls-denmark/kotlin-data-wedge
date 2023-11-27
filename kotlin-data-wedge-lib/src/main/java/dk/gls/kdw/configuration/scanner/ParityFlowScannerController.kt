@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 /**
@@ -49,6 +50,10 @@ class ParityFlowScannerController(dataWedgeHardwareScanner: DataWedgeHardwareSca
      */
     override fun resumeScanner() {
         desiredScannerStatusFlow.tryEmit(ScannerSimpleStatus.Enabled)
+    }
+
+    override fun remoteScannerNotification(deviceId: DeviceId, notifications: List<RemoteScannerNotification>) {
+        dataWedgeHardwareScanner.remoteScannerNotification(deviceId, notifications)
     }
 
     //endregion
