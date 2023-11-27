@@ -6,26 +6,14 @@ on:
       - release.**
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
-    outputs:
-      branchname: ${{ steps.step1.outputs.branchname  }}
-    steps:
-      - uses: actions/checkout@v1
-      - id: step1
-        run: |
-          raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw/origin\/}
-          echo "branch detected: $branch"
-          echo "branchname=$branch" >> $GITHUB_OUTPUT
-  build:
-    if: ${{ endsWith(needs.job1.outputs.branchname, 'main') == true }}
+  upload:
     environment: build
     env:
       GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
       GIT_AUTH_TOKEN: ${{ secrets.GIT_AUTH_TOKEN }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
       - name: Set up Java
         uses: actions/setup-java@v2
