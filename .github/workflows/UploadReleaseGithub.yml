@@ -13,7 +13,6 @@ jobs:
       GIT_AUTH_TOKEN: ${{ secrets.GIT_AUTH_TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
       - uses: actions/checkout@v1
       - name: Set up Java
         uses: actions/setup-java@v2
