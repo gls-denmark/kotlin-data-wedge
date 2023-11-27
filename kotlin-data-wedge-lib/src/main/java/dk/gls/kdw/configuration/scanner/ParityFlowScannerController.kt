@@ -9,14 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 /**
- * The parity flow scanner controller filters unnecessary calls to the underlying [DataWedgeHardwareScanner] by checking the last reported scanner status before sending new resume or suspend commands
+ * The parity flow scanner controller filters unnecessary calls to the underlying [IHardwareScanner] by checking the last reported scanner status before sending new resume or suspend commands
  * Therefore this scanner controllers [resumeScanner] and [suspendScanner] methods can safely be called multiple times without resulting in unnecessary broadcast intents being send to the Data wedge
  */
-class ParityFlowScannerController(dataWedgeHardwareScanner: DataWedgeHardwareScanner) : ScannerController(dataWedgeHardwareScanner) {
+class ParityFlowScannerController(dataWedgeIHardwareScanner: IHardwareScanner) : ScannerController(dataWedgeIHardwareScanner) {
 
     //We have an actual scanner status flow and a desired scanner status flow for combining later
     private val actualScannerStatusEnumFlow = MutableSharedFlow<ScannerSimpleStatus>(replay = 1)
@@ -32,7 +31,7 @@ class ParityFlowScannerController(dataWedgeHardwareScanner: DataWedgeHardwareSca
     /**
      * Receive the [ScannerOutput] as a flow
      */
-    override fun scannerOutputFlow(): Flow<ScannerOutput> = dataWedgeHardwareScanner.scannerOutputFlow()
+    override fun scannerOutputFlow(): Flow<ScannerOutput> = dataWedgeIHardwareScanner.scannerOutputFlow()
 
     //region Scanner status public interface
 
@@ -52,8 +51,8 @@ class ParityFlowScannerController(dataWedgeHardwareScanner: DataWedgeHardwareSca
         desiredScannerStatusFlow.tryEmit(ScannerSimpleStatus.Enabled)
     }
 
-    override fun remoteScannerNotification(deviceId: DeviceId, notifications: List<RemoteScannerNotification>) {
-        dataWedgeHardwareScanner.remoteScannerNotification(deviceId, notifications)
+    override fun remoteScannerNotifications(deviceId: DeviceId, vararg notifications: List<RemoteScannerNotification>) {
+        dataWedgeIHardwareScanner.remoteScannerNotifications(deviceId, *notifications)
     }
 
     //endregion
@@ -64,7 +63,7 @@ class ParityFlowScannerController(dataWedgeHardwareScanner: DataWedgeHardwareSca
 
     private fun CoroutineScope.subscribeToScannerFlow() = launch {
         scannerOutputFlow().collect {
-            if(it is ScannerOutput.Status) {
+            if (it is ScannerOutput.Status) {
                 actualScannerStatusEnumFlow.emit(it.scannerStatus.toScannerSimpleStatus())
             }
         }
@@ -76,8 +75,8 @@ class ParityFlowScannerController(dataWedgeHardwareScanner: DataWedgeHardwareSca
             Log.d("ParityFlowScannerController", "scannerStatusParityFlow: $actual, $desired")
             if (actual != desired) {
                 when (desired) {
-                    ScannerSimpleStatus.Disabled -> dataWedgeHardwareScanner.suspendScanner()
-                    ScannerSimpleStatus.Enabled -> dataWedgeHardwareScanner.resumeScanner()
+                    ScannerSimpleStatus.Disabled -> dataWedgeIHardwareScanner.suspendScanner()
+                    ScannerSimpleStatus.Enabled -> dataWedgeIHardwareScanner.resumeScanner()
                 }
             }
         }.collect()

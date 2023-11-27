@@ -64,3 +64,11 @@
 -keep class dk.gls.kdw.configuration.scanner.ParityFlowScannerController {
     *;
 }
+
+-keep class dk.gls.kdw.configuration.scanner.DeviceId {
+    *;
+}
+
+-keep class dk.gls.kdw.configuration.scanner.RemoteScannerNotification {
+    *;
+}

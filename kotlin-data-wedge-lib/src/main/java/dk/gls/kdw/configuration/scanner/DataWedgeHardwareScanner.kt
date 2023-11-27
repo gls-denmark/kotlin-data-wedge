@@ -14,16 +14,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-
 
 class DataWedgeHardwareScanner(
     private val context: Context,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
-) : HardwareScanner {
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : IHardwareScanner {
 
     companion object {
         //Scanner Intent data locations
@@ -67,7 +70,7 @@ class DataWedgeHardwareScanner(
         private const val BUNDLE_NOTIFICATION_CONFIG = "NOTIFICATION_CONFIG"
         private const val EXTRA_KEY_VALUE_DEVICE_IDENTIFIER = "DEVICE_IDENTIFIER"
         private const val EXTRA_KEY_VALUE_NOTIFICATION_SETTINGS = "NOTIFICATION_SETTINGS"
-
+        private const val NOTIFICATIONS_DELAY: Long = 1000
     }
 
     private val scope = CoroutineScope(dispatcher)
@@ -96,18 +99,32 @@ class DataWedgeHardwareScanner(
         broadcastScannerAction(context, EXTRA_SCANNER_RESUME)
     }
 
+    //endregion
+
+    //region scanner notifications
+
     /**
-     * Send a notification on the remote scanner (RMS)
+     * Send a variable amount of notification lists specifying the notifications for the remote scanner (RMS)
+     * The notifications are send with a delay between parsed lists of 1000 ms
+     * Official documentation
      * @link https://techdocs.zebra.com/datawedge/8-2/guide/api/notify/
      **/
-    override fun remoteScannerNotification(deviceId: DeviceId, notifications: List<RemoteScannerNotification>) {
+    override fun remoteScannerNotifications(deviceId: DeviceId, vararg notifications: List<RemoteScannerNotification>) {
+        CoroutineScope(dispatcher).launch {
+            notifications.asFlow().map {
+                remoteScannerNotification(deviceId, it)
+                delay(NOTIFICATIONS_DELAY)
+            }.collect()
+        }
+    }
+
+    private fun remoteScannerNotification(deviceId: DeviceId, notifications: List<RemoteScannerNotification>) {
         val bundleNotificationConfig = Bundle()
         bundleNotificationConfig.putString(EXTRA_KEY_VALUE_DEVICE_IDENTIFIER, deviceId.name)
         bundleNotificationConfig.putIntArray(EXTRA_KEY_VALUE_NOTIFICATION_SETTINGS, notifications.map { it.value }.toIntArray())
 
         val bundleNotify = Bundle()
         bundleNotify.putBundle(BUNDLE_NOTIFICATION_CONFIG, bundleNotificationConfig)
-
 
         val dataWedgeIntent = Intent()
         dataWedgeIntent.action = ACTION_DATA_WEDGE
@@ -157,7 +174,7 @@ class DataWedgeHardwareScanner(
                     }
                     if (intent.hasExtra(RESULT_ENUMERATE_SCANNERS)) {
                         val scannerList = intent.getSerializableExtra(RESULT_ENUMERATE_SCANNERS) as ArrayList<Bundle>
-                        if(scannerList.size > 0) {
+                        if (scannerList.size > 0) {
                             scannerList.map { bunb ->
                                 val name = bunb.getString("SCANNER_NAME")
                                 val connectionState = bunb.getBoolean("SCANNER_CONNECTION_STATE")
