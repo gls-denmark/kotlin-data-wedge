@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
  * The scanner controller makes it possible to suspend and resume the scanner and monitor [ScannerOutput] using a Flow
  */
 abstract class ScannerController(
-    val dataWedgeHardwareScanner: DataWedgeHardwareScanner
+    val dataWedgeIHardwareScanner: IHardwareScanner
 ) {
 
     abstract fun scannerOutputFlow(): Flow<ScannerOutput>
@@ -16,4 +16,5 @@ abstract class ScannerController(
 
     abstract fun resumeScanner()
 
+    abstract fun remoteScannerNotifications(deviceId: DeviceId, vararg notifications: List<RemoteScannerNotification>)
 }
