@@ -249,7 +249,7 @@ class DataWedgeHardwareScanner(
             val connectionState = scannerConnectionBundle.getBoolean("SCANNER_CONNECTION_STATE")
 
             Log.d(TAG, "Scanner: name: $name connectionState: $connectionState index: $index id: $id")
-            ScannerConnection(id ?: "", index, name.toDeviceId(), connectionState)
+            ScannerConnection(id.toDeviceId(), index, name ?: "", connectionState)
         }
 
         return ScannerOutput.Connection(scannerConnections)

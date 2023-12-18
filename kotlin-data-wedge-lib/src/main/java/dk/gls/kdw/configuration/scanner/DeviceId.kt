@@ -30,8 +30,9 @@ enum class DeviceId {
 }
 
 fun String?.toDeviceId() : DeviceId {
+    val string = this ?: return DeviceId.UNKNOWN
     return try {
-        enumValueOf<DeviceId>(this ?: return DeviceId.UNKNOWN)
+        enumValueOf<DeviceId>(string)
     } catch (e: IllegalArgumentException) {
         DeviceId.UNKNOWN
     }
