@@ -24,5 +24,15 @@ enum class DeviceId {
     /** Serial SSI scanner RS5000 (for use with WT6000) **/
     PLUGABLE_SSI_RS5000,
     /** DS3608 pluggable USB scanner **/
-    USB_SSI_DS3608
+    USB_SSI_DS3608,
+    /** Fallback in case the library cannot recognize the scanner **/
+    UNKNOWN
+}
+
+fun String?.toDeviceId() : DeviceId {
+    return try {
+        enumValueOf<DeviceId>(this ?: return DeviceId.UNKNOWN)
+    } catch (e: IllegalArgumentException) {
+        DeviceId.UNKNOWN
+    }
 }

@@ -1,6 +1,7 @@
 package dk.gls.kdw.configuration.scanner
 
 import android.util.Log
+import dk.gls.kdw.configuration.model.ScannerConnection
 import dk.gls.kdw.model.scanner.ScannerOutput
 import dk.gls.kdw.model.scanner.ScannerStatus
 import kotlinx.coroutines.CoroutineScope
@@ -81,6 +82,8 @@ class ParityFlowScannerController(dataWedgeIHardwareScanner: IHardwareScanner) :
             }
         }.collect()
     }
+
+    //endregion
 }
 
 /**

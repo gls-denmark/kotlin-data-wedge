@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
+import dk.gls.kdw.configuration.model.ScannerConnection
 import dk.gls.kdw.model.scanner.ScannerOutput
 import dk.gls.kdw.model.scanner.ScannerResult
 import dk.gls.kdw.model.scanner.toScannerStatusEnum
@@ -71,6 +72,8 @@ class DataWedgeHardwareScanner(
         private const val EXTRA_KEY_VALUE_DEVICE_IDENTIFIER = "DEVICE_IDENTIFIER"
         private const val EXTRA_KEY_VALUE_NOTIFICATION_SETTINGS = "NOTIFICATION_SETTINGS"
         private const val NOTIFICATIONS_DELAY: Long = 1000
+
+        private const val TAG = "DataWedgeHardwareScanner"
     }
 
     private val scope = CoroutineScope(dispatcher)
@@ -80,6 +83,8 @@ class DataWedgeHardwareScanner(
         scope.launch {
             subscribeToScannerFlow()
         }
+
+        requestEnumerateScanners()
     }
 
     private val _scannerFlow = MutableSharedFlow<ScannerOutput>()
@@ -140,7 +145,6 @@ class DataWedgeHardwareScanner(
         callbackFlow {
             val receiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context?, intent: Intent) {
-                    Log.d("ScannerFlow", "${intent.action}, hasExtras: ${intent.hasExtra(RESULT_ENUMERATE_SCANNERS)}")
                     // Received a barcode scan
                     if (intent.action == INTENT_FILTER_ACTION) {
                         val scannerResult = extractDataFromIntent(intent)
@@ -154,14 +158,9 @@ class DataWedgeHardwareScanner(
                             // The scanner changed status
                             EXTRA_KEY_VALUE_SCANNER_STATUS -> {
                                 val scannerStatus = extras.getString(EXTRA_KEY_VALUE_NOTIFICATION_STATUS)
-
                                 scannerStatus?.let {
                                     val statusEnum = it.toScannerStatusEnum()
-
-
                                     requestEnumerateScanners()
-
-
                                     trySendBlocking(ScannerOutput.Status(statusEnum))
                                 }
                             }
@@ -172,18 +171,9 @@ class DataWedgeHardwareScanner(
                             }
                         }
                     }
-                    if (intent.hasExtra(RESULT_ENUMERATE_SCANNERS)) {
-                        val scannerList = intent.getSerializableExtra(RESULT_ENUMERATE_SCANNERS) as ArrayList<Bundle>
-                        if (scannerList.size > 0) {
-                            scannerList.map { bunb ->
-                                val name = bunb.getString("SCANNER_NAME")
-                                val connectionState = bunb.getBoolean("SCANNER_CONNECTION_STATE")
-                                val index = bunb.getInt("SCANNER_INDEX")
-                                val id = bunb.getString("SCANNER_IDENTIFIER")
 
-                                Log.d("ScannerList", "Scanner: name: $name connectionState: $connectionState index: $index id: $id")
-                            }
-                        }
+                    if (intent.hasExtra(RESULT_ENUMERATE_SCANNERS)) {
+                        trySendBlocking(retrieveScannerConnections(intent))
                     }
                 }
             }
@@ -202,7 +192,6 @@ class DataWedgeHardwareScanner(
 
         dataWedgeIntent.setAction(ACTION_DATA_WEDGE)
         dataWedgeIntent.putExtra(ENUMERATE_SCANNERS, "")
-
         context.sendBroadcast(dataWedgeIntent)
     }
 
@@ -211,6 +200,7 @@ class DataWedgeHardwareScanner(
         val filter = IntentFilter()
         // Register to received broadcasts via Data Wedge scanning
         filter.addAction(RESULT_ACTION)
+        filter.addCategory(Intent.CATEGORY_DEFAULT)
         // For notification result
         filter.addAction(NOTIFICATION_ACTION)
         // Register to received broadcasts via DataWedge scanning
@@ -246,6 +236,23 @@ class DataWedgeHardwareScanner(
         intent.action = ACTION_DATA_WEDGE
         intent.putExtra(EXTRA_SCANNER_INPUT_PLUGIN, action)
         context.sendBroadcast(intent)
+    }
+
+    private fun retrieveScannerConnections(intent: Intent) : ScannerOutput {
+        val scannerList = intent.getSerializableExtra(RESULT_ENUMERATE_SCANNERS) as ArrayList<Bundle>
+        Log.d(TAG, "ScannerList $scannerList")
+
+        val scannerConnections = scannerList.map { scannerConnectionBundle ->
+            val id = scannerConnectionBundle.getString("SCANNER_IDENTIFIER")
+            val index = scannerConnectionBundle.getInt("SCANNER_INDEX")
+            val name = scannerConnectionBundle.getString("SCANNER_NAME")
+            val connectionState = scannerConnectionBundle.getBoolean("SCANNER_CONNECTION_STATE")
+
+            Log.d(TAG, "Scanner: name: $name connectionState: $connectionState index: $index id: $id")
+            ScannerConnection(id ?: "", index, name.toDeviceId(), connectionState)
+        }
+
+        return ScannerOutput.Connection(scannerConnections)
     }
 
 }
