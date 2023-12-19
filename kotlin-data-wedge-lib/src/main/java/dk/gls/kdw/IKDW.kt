@@ -4,7 +4,6 @@ import android.content.Context
 import dk.gls.kdw.configuration.ProfileConfiguration
 import dk.gls.kdw.configuration.scanner.DataWedgeHardwareScanner
 import dk.gls.kdw.configuration.scanner.ScannerController
-import dk.gls.kdw.model.barcode.ScannerConfiguration
 
 interface IKDW {
 
