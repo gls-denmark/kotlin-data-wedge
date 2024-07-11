@@ -240,7 +240,7 @@ class DataWedgeHardwareScanner(
 
     private fun retrieveScannerConnections(intent: Intent) : ScannerOutput {
         val scannerList = intent.getSerializableExtra(RESULT_ENUMERATE_SCANNERS) as ArrayList<Bundle>
-        Log.d(TAG, "ScannerList $scannerList")
+        Log.v(TAG, "ScannerList $scannerList")
 
         val scannerConnections = scannerList.map { scannerConnectionBundle ->
             val id = scannerConnectionBundle.getString("SCANNER_IDENTIFIER")
@@ -248,7 +248,7 @@ class DataWedgeHardwareScanner(
             val name = scannerConnectionBundle.getString("SCANNER_NAME")
             val connectionState = scannerConnectionBundle.getBoolean("SCANNER_CONNECTION_STATE")
 
-            Log.d(TAG, "Scanner: name: $name connectionState: $connectionState index: $index id: $id")
+            Log.v(TAG, "Scanner: name: $name connectionState: $connectionState index: $index id: $id")
             ScannerConnection(id.toDeviceId(), index, name ?: "", connectionState)
         }
 
