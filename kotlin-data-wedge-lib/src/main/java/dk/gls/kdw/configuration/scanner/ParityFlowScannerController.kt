@@ -73,7 +73,7 @@ class ParityFlowScannerController(dataWedgeIHardwareScanner: IHardwareScanner) :
     /** Combine actual and desired flows and toggle the scanner if they are not equal **/
     private fun CoroutineScope.scannerStatusParityFlow() = launch {
         combine(actualScannerStatusEnumFlow, desiredScannerStatusFlow) { actual, desired ->
-            Log.d("ParityFlowScannerController", "scannerStatusParityFlow: $actual, $desired")
+            Log.v("ParityFlowScannerController", "scannerStatusParityFlow: $actual, $desired")
             if (actual != desired) {
                 when (desired) {
                     ScannerSimpleStatus.Disabled -> dataWedgeIHardwareScanner.suspendScanner()
