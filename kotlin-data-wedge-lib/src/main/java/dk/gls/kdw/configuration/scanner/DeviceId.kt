@@ -15,16 +15,14 @@ enum class DeviceId {
     BLUETOOTH_RS6000,
     /** RS5100 Bluetooth scanner **/
     BLUETOOTH_RS5100,
-    /** DS2278 Bluetooth scanner **/
-    BLUETOOTH_DS2278,
-    /** DS3678 Bluetooth scanner **/
-    BLUETOOTH_DS3678,
     /** Serial SSI scanner RS429 (for use with WT6000) **/
     PLUGABLE_SSI,
     /** Serial SSI scanner RS5000 (for use with WT6000) **/
     PLUGABLE_SSI_RS5000,
     /** DS3608 pluggable USB scanner **/
     USB_SSI_DS3608,
+    /** Zebra Bluetooth Scanner **/
+    BLUETOOTH_ZEBRA,
     /** Fallback in case the library cannot recognize the scanner **/
     UNKNOWN
 }
